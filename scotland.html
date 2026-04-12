@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scotland Road Trip | 蘇格蘭雙城探險自駕之旅</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet Map CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#e0f2fe',
+                            DEFAULT: '#0284c7',
+                            dark: '#075985',
+                        },
+                        accent: {
+                            light: '#dcfce7',
+                            DEFAULT: '#16a34a',
+                        },
+                        warm: '#fef3c7'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+        /* Language Toggle Logic */
+        body.lang-en .zh { display: none !important; }
+        body.lang-zh .en { display: none !important; }
+        
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background-color: #cbd5e1;
+            z-index: 0;
+        }
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 24px;
+                transform: none;
+            }
+            .timeline-card {
+                width: 100% !important;
+                margin-left: 48px !important;
+                margin-right: 0 !important;
+            }
+            .timeline-dot {
+                left: 24px !important;
+                transform: translateX(-50%) !important;
+            }
+        }
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="smooth-scroll text-slate-800 antialiased lang-en">
+
+    <!-- Language Toggle Button -->
+    <div class="fixed top-4 right-4 z-[9999]">
+        <button id="lang-toggle" onclick="toggleLanguage()" class="bg-white/90 backdrop-blur-md border border-slate-200 shadow-xl rounded-full px-4 py-2 flex items-center gap-3 hover:bg-slate-50 hover:scale-105 transition-all cursor-pointer">
+            <i class="fa-solid fa-globe text-brand"></i>
+            <div class="font-bold text-sm flex items-center gap-2">
+                <span id="btn-en" class="text-brand font-black">Eng</span>
+                <span class="text-slate-300 font-light">|</span>
+                <span id="btn-zh" class="text-slate-400">中</span>
+            </div>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative bg-gradient-to-br from-brand to-teal-500 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+        <div class="relative max-w-5xl mx-auto px-6 py-24 text-center mt-8">
+            <span class="inline-block py-1 px-3 rounded-full bg-white/20 backdrop-blur-sm text-sm font-bold tracking-wider mb-4 border border-white/30">
+                <i class="fa-solid fa-car-side mr-2"></i> 
+                <span class="zh">專為 4-8 歲兒童家庭設計</span>
+                <span class="en">Designed for Families with Kids Ages 4-8</span>
+            </span>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-md">
+                <span class="zh">蘇格蘭雙城童話 <br/> <span class="text-warm">與公路探險之旅</span></span>
+                <span class="en">Scotland's Two-City Fairy-Tale <br/> <span class="text-warm">& Road Trip Adventure</span></span>
+            </h1>
+            <p class="text-lg md:text-xl font-medium mb-8 max-w-2xl mx-auto opacity-90">
+                <span class="zh">6天5夜自駕版行程。完美結合愛丁堡的魔法古堡、格拉斯哥的機械探險，以及蘇格蘭壯麗的自然湖泊與高地牛！</span>
+                <span class="en">A 6-day, 5-night self-drive itinerary. Perfectly combines Edinburgh's magical castles, Glasgow's mechanical wonders, and Scotland's magnificent lochs and Highland cows!</span>
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#itinerary" class="bg-white text-brand-dark font-bold py-3 px-8 rounded-full shadow-lg hover:bg-warm transition transform hover:-translate-y-1">
+                    <i class="fa-solid fa-map-location-dot mr-2"></i> 
+                    <span class="zh">查看行程</span><span class="en">View Itinerary</span>
+                </a>
+                <a href="#hotels" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white/10 transition">
+                    <i class="fa-solid fa-bed mr-2"></i> 
+                    <span class="zh">住宿推薦</span><span class="en">Hotel Picks</span>
+                </a>
+                <a href="#restaurants" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white/10 transition">
+                    <i class="fa-solid fa-utensils mr-2"></i> 
+                    <span class="zh">亞洲美食</span><span class="en">Dining Picks</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Wave Divider -->
+        <div class="absolute bottom-0 w-full overflow-hidden leading-none transform translate-y-1">
+            <svg class="relative block w-full h-[50px] md:h-[100px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,120.3,200.5,115.1,241.6,112.11,281.8,103.5,321.39,56.44Z" fill="#f8fafc"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Itinerary Timeline Section -->
+    <section id="itinerary" class="py-20 px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">
+                📍 <span class="zh">每日行程總覽</span><span class="en">Daily Itinerary Overview</span>
+            </h2>
+            <p class="text-slate-600 max-w-2xl mx-auto">
+                <span class="zh">點擊各天行程，跟著路線規劃完美的家庭公路旅行！</span>
+                <span class="en">Follow the route below to plan your perfect family road trip!</span>
+            </p>
+        </div>
+        <div class="relative wrap overflow-hidden p-4 h-full">
+            <div class="timeline-line"></div>
+            
+            <!-- Day 1 -->
+            <div class="mb-12 flex justify-between items-center w-full relative z-10 md:flex-row flex-col">
+                <div class="timeline-card w-5/12 md:text-right md:pr-8 mb-4 md:mb-0 order-2 md:order-1">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-brand hover:shadow-xl transition duration-300">
+                        <div class="flex items-center md:justify-end mb-2 gap-2">
+                            <span class="bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded font-bold">
+                                <span class="zh">愛丁堡</span><span class="en">Edinburgh</span>
+                            </span>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-1">
+                            <span class="zh">第一天：抵達與魔法老城</span><span class="en">Day 1: Arrival & Magical Old Town</span>
+                        </h3>
+                        <p class="text-sm text-slate-500 mb-3"><i class="fa-solid fa-person-walking text-brand"></i> 
+                            <span class="zh">建議將車停妥，全日步行</span><span class="en">Park the car, explore on foot all day</span>
+                        </p>
+                        <ul class="text-slate-600 text-sm space-y-2 md:text-right text-left">
+                            <li><span class="zh"><strong>下午：</strong> 漫步 <span class="font-semibold text-accent-DEFAULT">王子街花園 🆓</span>，讓孩子奔跑放電。</span>
+                                <span class="en"><strong>Afternoon:</strong> Stroll through <span class="font-semibold text-accent-DEFAULT">Princes St Gardens 🆓</span>, let the kids run and play.</span></li>
+                            <li><span class="zh"><strong>傍晚：</strong> 逛逛 <span class="font-semibold text-accent-DEFAULT">維多利亞街 🆓</span>，尋找 <span class="font-semibold text-accent-DEFAULT">忠犬鮑比 🆓</span> 雕像。</span>
+                                <span class="en"><strong>Evening:</strong> Explore <span class="font-semibold text-accent-DEFAULT">Victoria Street 🆓</span> and find the <span class="font-semibold text-accent-DEFAULT">Greyfriars Bobby 🆓</span> statue.</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-brand border-4 border-white shadow flex items-center justify-center text-white font-bold z-20 order-1 md:order-2">1</div>
+                <div class="w-5/12 order-3 hidden md:block"></div>
+            </div>
+
+            <!-- Day 2 -->
+            <div class="mb-12 flex justify-between items-center w-full relative z-10 md:flex-row flex-col">
+                <div class="w-5/12 hidden md:block order-1"></div>
+                <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-brand border-4 border-white shadow flex items-center justify-center text-white font-bold z-20 order-1 md:order-2">2</div>
+                <div class="timeline-card w-5/12 md:pl-8 mb-4 md:mb-0 order-2 md:order-3">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-brand hover:shadow-xl transition duration-300">
+                        <div class="flex items-center mb-2 gap-2">
+                            <span class="bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded font-bold">
+                                <span class="zh">愛丁堡</span><span class="en">Edinburgh</span>
+                            </span>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-1">
+                            <span class="zh">第二天：唯一城堡與頂級遊樂場</span><span class="en">Day 2: Castle & Top Playground</span>
+                        </h3>
+                        <p class="text-sm text-slate-500 mb-3"><i class="fa-solid fa-bus text-brand"></i> 
+                            <span class="zh">上午步行，下午搭短程公車或開車</span><span class="en">Walk in AM, short bus/drive in PM</span>
+                        </p>
+                        <ul class="text-slate-600 text-sm space-y-2 text-left">
+                            <li><span class="zh"><strong>上午：</strong> 參觀 <span class="font-semibold text-orange-500">愛丁堡城堡 🎟️</span>，觀看「一點鐘響炮」。</span>
+                                <span class="en"><strong>Morning:</strong> Visit <span class="font-semibold text-orange-500">Edinburgh Castle 🎟️</span> and watch the "One O'Clock Gun".</span></li>
+                            <li><span class="zh"><strong>下午：</strong> 前往 <span class="font-semibold text-accent-DEFAULT">Saughton Park 🆓</span> 頂級共融遊樂場。</span>
+                                <span class="en"><strong>Afternoon:</strong> Head to <span class="font-semibold text-accent-DEFAULT">Saughton Park 🆓</span>, a top inclusive playground.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="mb-12 flex justify-between items-center w-full relative z-10 md:flex-row flex-col">
+                <div class="timeline-card w-5/12 md:text-right md:pr-8 mb-4 md:mb-0 order-2 md:order-1">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-teal-500 hover:shadow-xl transition duration-300">
+                        <div class="flex items-center md:justify-end mb-2 gap-2">
+                            <span class="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded font-bold">
+                                <span class="zh">公路旅行</span><span class="en">Road Trip</span>
+                            </span>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-1">
+                            <span class="zh">第三天：巨型怪獸與水上電梯</span><span class="en">Day 3: Giant Monsters & Water Elevators</span>
+                        </h3>
+                        <p class="text-sm text-slate-500 mb-3"><i class="fa-solid fa-car text-teal-500"></i> 
+                            <span class="zh">自駕優勢全開，行駛 M9/M8 高速</span><span class="en">Self-drive advantage on M9/M8 highways</span>
+                        </p>
+                        <ul class="text-slate-600 text-sm space-y-2 md:text-right text-left">
+                            <li><span class="zh"><strong>上午：</strong> 開車觀賞30公尺高馬頭雕塑 <span class="font-semibold text-accent-DEFAULT">The Kelpies 🆓</span>。</span>
+                                <span class="en"><strong>Morning:</strong> Drive to see the 30m tall horse heads <span class="font-semibold text-accent-DEFAULT">The Kelpies 🆓</span>.</span></li>
+                            <li><span class="zh"><strong>下午：</strong> 前往 <span class="font-semibold text-accent-DEFAULT">福爾柯克輪 🆓</span> 觀看旋轉船舶電梯。傍晚抵達格拉斯哥飯店。</span>
+                                <span class="en"><strong>Afternoon:</strong> Visit <span class="font-semibold text-accent-DEFAULT">The Falkirk Wheel 🆓</span> rotating boat lift. Arrive at Glasgow hotel by evening.</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-teal-500 border-4 border-white shadow flex items-center justify-center text-white font-bold z-20 order-1 md:order-2">3</div>
+                <div class="w-5/12 order-3 hidden md:block"></div>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="mb-12 flex justify-between items-center w-full relative z-10 md:flex-row flex-col">
+                <div class="w-5/12 hidden md:block order-1"></div>
+                <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-indigo-500 border-4 border-white shadow flex items-center justify-center text-white font-bold z-20 order-1 md:order-2">4</div>
+                <div class="timeline-card w-5/12 md:pl-8 mb-4 md:mb-0 order-2 md:order-3">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-indigo-500 hover:shadow-xl transition duration-300">
+                        <div class="flex items-center mb-2 gap-2">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded font-bold">
+                                <span class="zh">格拉斯哥</span><span class="en">Glasgow</span>
+                            </span>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-1">
+                            <span class="zh">第四天：交通工具大集合與野餐</span><span class="en">Day 4: Transport Wonders & Picnic</span>
+                        </h3>
+                        <p class="text-sm text-slate-500 mb-3"><i class="fa-solid fa-car text-indigo-500"></i> 
+                            <span class="zh">市區周邊景點輕鬆開車抵達</span><span class="en">Easy drive to city outskirts attractions</span>
+                        </p>
+                        <ul class="text-slate-600 text-sm space-y-2 text-left">
+                            <li><span class="zh"><strong>上午：</strong> 前往歐洲最棒的 <span class="font-semibold text-accent-DEFAULT">河濱博物館 🆓</span>。</span>
+                                <span class="en"><strong>Morning:</strong> Visit Europe's top <span class="font-semibold text-accent-DEFAULT">Riverside Museum 🆓</span>.</span></li>
+                            <li><span class="zh"><strong>下午：</strong> 參觀有戰鬥機懸掛的 <span class="font-semibold text-accent-DEFAULT">凱文葛羅夫博物館 🆓</span>。</span>
+                                <span class="en"><strong>Afternoon:</strong> See the Spitfire plane at <span class="font-semibold text-accent-DEFAULT">Kelvingrove Museum 🆓</span>.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="mb-12 flex justify-between items-center w-full relative z-10 md:flex-row flex-col">
+                <div class="timeline-card w-5/12 md:text-right md:pr-8 mb-4 md:mb-0 order-2 md:order-1">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-green-500 hover:shadow-xl transition duration-300">
+                        <div class="flex items-center md:justify-end mb-2 gap-2">
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded font-bold">
+                                <span class="zh">近郊高地</span><span class="en">Highland Outskirts</span>
+                            </span>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-1">
+                            <span class="zh">第五天：偽高地尋寶記</span><span class="en">Day 5: Mock Highland Treasure Hunt</span>
+                        </h3>
+                        <p class="text-sm text-slate-500 mb-3"><i class="fa-solid fa-car text-green-500"></i> 
+                            <span class="zh">開車40分鐘直達絕美湖區</span><span class="en">40-min drive to stunning lochs</span>
+                        </p>
+                        <ul class="text-slate-600 text-sm space-y-2 md:text-right text-left">
+                            <li><span class="zh"><strong>全天：</strong> 前往 <span class="font-semibold text-accent-DEFAULT">羅夢湖國家公園 (Luss小鎮) 🆓</span>。散步、餵鴨子。</span>
+                                <span class="en"><strong>Full Day:</strong> <span class="font-semibold text-accent-DEFAULT">Loch Lomond (Luss Village) 🆓</span>. Walk and feed ducks.</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-green-500 border-4 border-white shadow flex items-center justify-center text-white font-bold z-20 order-1 md:order-2">5</div>
+                <div class="w-5/12 order-3 hidden md:block"></div>
+            </div>
+
+            <!-- Day 6 -->
+            <div class="mb-12 flex justify-between items-center w-full relative z-10 md:flex-row flex-col">
+                <div class="w-5/12 hidden md:block order-1"></div>
+                <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-rose-500 border-4 border-white shadow flex items-center justify-center text-white font-bold z-20 order-1 md:order-2">6</div>
+                <div class="timeline-card w-5/12 md:pl-8 mb-4 md:mb-0 order-2 md:order-3">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-rose-500 hover:shadow-xl transition duration-300">
+                        <div class="flex items-center mb-2 gap-2">
+                            <span class="bg-rose-100 text-rose-800 text-xs px-2 py-1 rounded font-bold">
+                                <span class="zh">格拉斯哥 & 返家</span><span class="en">Glasgow & Departure</span>
+                            </span>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-1">
+                            <span class="zh">第六天：尋找高地牛與返程</span><span class="en">Day 6: Highland Cows & Journey Home</span>
+                        </h3>
+                        <p class="text-sm text-slate-500 mb-3"><i class="fa-solid fa-car text-rose-500"></i> 
+                            <span class="zh">帶著行李，看完直接去機場</span><span class="en">Keep luggage in car, head to airport after</span>
+                        </p>
+                        <ul class="text-slate-600 text-sm space-y-2 text-left">
+                            <li><span class="zh"><strong>上午：</strong> 退房後開車前往 <span class="font-semibold text-accent-DEFAULT">波洛克郊野公園 🆓</span> 尋找「高地牛」。</span>
+                                <span class="en"><strong>Morning:</strong> Check out, drive to <span class="font-semibold text-accent-DEFAULT">Pollok Country Park 🆓</span> to spot Highland cows.</span></li>
+                            <li><span class="zh"><strong>下午：</strong> 前往格拉斯哥機場還車。</span>
+                                <span class="en"><strong>Afternoon:</strong> Return the car at Glasgow Airport.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section id="map-section" class="py-16 px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">
+                🗺️ <span class="zh">雙城探險景點地圖</span><span class="en">Two-City Adventure Map</span>
+            </h2>
+            <p class="text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                <span class="zh">您可以自由縮放、拖曳地圖。查看從愛丁堡到格拉斯哥的景點分佈，讓您的自駕路線規劃更具體！點擊標籤可查看景點名稱。</span>
+                <span class="en">Zoom and drag freely. View the attractions layout from Edinburgh to Glasgow to make your road trip planning easier! Click tags for names.</span>
+            </p>
+        </div>
+        <div class="bg-white p-3 rounded-3xl shadow-xl border border-slate-200">
+            <!-- z-index=0 to avoid covering language toggle and other elements -->
+            <div id="itinerary-map" class="w-full h-[500px] rounded-2xl z-0 relative"></div>
+        </div>
+    </section>
+
+    <!-- Hotels Section -->
+    <section id="hotels" class="py-20 px-6 max-w-6xl mx-auto border-t border-slate-200">
+        <div class="text-center mb-16">
+            <span class="text-brand font-bold tracking-wider uppercase text-sm mb-2 block"><i class="fa-solid fa-wallet"></i> 
+                <span class="zh">預算友善 & 停車友善</span><span class="en">Budget & Parking Friendly</span>
+            </span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">
+                🛏️ <span class="zh">專屬自駕住宿推薦 (Premier Inn)</span><span class="en">Self-Drive Hotel Picks (Premier Inn)</span>
+            </h2>
+            <p class="text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                <span class="zh">要在這兩大城市找到**平價且附免費停車**的住宿，秘訣是：「避開正市中心，選擇外圍但交通方便的 Premier Inn」。以下為您挑選最適合此行程的戰略性住宿：</span>
+                <span class="en">The secret to finding affordable accommodation with free parking in these two cities: "Avoid the dead center, choose accessible peripheral Premier Inns". Here are our top strategic picks:</span>
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Edinburgh Hotel -->
+            <div class="bg-white border-2 border-brand-light rounded-2xl p-8 shadow-sm hover:shadow-xl transition relative">
+                <div class="absolute -top-5 -right-5 bg-brand text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg">
+                    <i class="fa-solid fa-1"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-1 text-brand-dark">
+                    <span class="zh">愛丁堡住宿：市郊大眾運輸站點</span><span class="en">Edinburgh Stay: Suburban Transit Hubs</span>
+                </h3>
+                <p class="text-slate-500 text-sm mb-6"><i class="fa-solid fa-location-dot"></i> 
+                    <span class="zh">前兩晚愛丁堡大本營</span><span class="en">Basecamp for the first 2 nights</span>
+                </p>
+                
+                <div class="bg-slate-50 rounded-xl p-5 border border-slate-100 mb-6">
+                    <h4 class="font-bold text-lg mb-2 text-slate-800">
+                        <span class="zh">首選：</span><span class="en">Top Choice: </span>Premier Inn Edinburgh Park (The Gyle) <br> <span class="zh">或</span><span class="en">or</span> Premier Inn Edinburgh East
+                    </h4>
+                    <ul class="space-y-3 text-slate-600 mt-4">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-square-parking text-accent-DEFAULT mt-1 mr-3 text-lg"></i>
+                            <div>
+                                <span class="font-bold text-slate-800"><span class="zh">免費停車：</span><span class="en">Free Parking: </span></span>
+                                <span class="zh">市中心絕對找不到的福利。抵達後把車停好，不用再擔心昂貴的過夜停車費。</span>
+                                <span class="en">A luxury impossible in the city center. Park upon arrival and forget expensive overnight fees.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-train-tram text-brand mt-1 mr-3 text-lg"></i>
+                            <div>
+                                <span class="font-bold text-slate-800"><span class="zh">進城極快：</span><span class="en">Fast City Access: </span></span>
+                                <span class="zh">(The Gyle 分店) 門口就有輕軌電車 (Tram)，15-20分鐘直達王子街花園，推嬰兒車上下車超方便。</span>
+                                <span class="en">(The Gyle branch) Tram stop right outside, 15-20 mins direct to Princes St Gardens. Very stroller-friendly.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Glasgow Hotel -->
+            <div class="bg-white border-2 border-indigo-100 rounded-2xl p-8 shadow-sm hover:shadow-xl transition relative">
+                <div class="absolute -top-5 -right-5 bg-indigo-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg">
+                    <i class="fa-solid fa-2"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-1 text-indigo-900">
+                    <span class="zh">格拉斯哥住宿：公路旅行樞紐</span><span class="en">Glasgow Stay: Road Trip Hub</span>
+                </h3>
+                <p class="text-slate-500 text-sm mb-6"><i class="fa-solid fa-location-dot"></i> 
+                    <span class="zh">後三晚格拉斯哥大本營</span><span class="en">Basecamp for the last 3 nights</span>
+                </p>
+                
+                <div class="bg-slate-50 rounded-xl p-5 border border-slate-100 mb-6">
+                    <h4 class="font-bold text-lg mb-2 text-slate-800">
+                        <span class="zh">首選：</span><span class="en">Top Choice: </span>Premier Inn Glasgow Braehead
+                    </h4>
+                    <ul class="space-y-3 text-slate-600 mt-4">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-square-parking text-accent-DEFAULT mt-1 mr-3 text-lg"></i>
+                            <div>
+                                <span class="font-bold text-slate-800"><span class="zh">超大免費停車場：</span><span class="en">Huge Free Parking: </span></span>
+                                <span class="zh">位於市區外圍，緊鄰大型購物中心，停車位永遠充足。</span>
+                                <span class="en">Located on the outskirts next to a large mall, spaces are always plentiful.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-route text-indigo-500 mt-1 mr-3 text-lg"></i>
+                            <div>
+                                <span class="font-bold text-slate-800"><span class="zh">完美戰略位置：</span><span class="en">Perfect Location: </span></span>
+                                <span class="zh">就在 M8 高速公路旁。開車 10 分鐘到河濱博物館，40 分鐘直達羅夢湖（免塞市區），是去高地湖區的完美出發點！</span>
+                                <span class="en">Right off the M8. 10 mins to Riverside Museum, 40 mins direct to Loch Lomond (avoiding city traffic). Perfect launchpad!</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kids Eat Free Banner -->
+        <div class="mt-8 bg-gradient-to-r from-warm to-amber-200 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 shadow-md border border-amber-300">
+            <div class="bg-white rounded-full w-20 h-20 flex items-center justify-center text-4xl shadow-inner shrink-0">
+                🍳
+            </div>
+            <div>
+                <h3 class="text-xl font-bold text-amber-900 mb-2">
+                    <span class="zh">💡 預算救星：Premier Inn 兒童免費早餐！</span><span class="en">💡 Budget Savior: Kids Eat Free Breakfast!</span>
+                </h3>
+                <p class="text-amber-800">
+                    <span class="zh">選擇 Premier Inn 對家庭最划算的一點是：只要一位成人點了全套英式早餐（約 £9.99），就可以帶 <strong>兩位 16 歲以下的兒童免費吃到飽</strong>！出門前讓小朋友吃飽，能省下極大的早午餐開銷。</span>
+                    <span class="en">The best value for families: For every adult ordering a full breakfast (~£9.99), up to <strong>two kids under 16 eat free</strong>! Fill the kids up before heading out to save huge on brunch expenses.</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: Restaurant Section -->
+    <section id="restaurants" class="py-20 px-6 max-w-7xl mx-auto border-t border-slate-200 bg-slate-50 rounded-3xl mb-10 shadow-sm">
+        <div class="text-center mb-16">
+            <span class="text-orange-500 font-bold tracking-wider uppercase text-sm mb-2 block"><i class="fa-solid fa-bowl-rice"></i> 
+                <span class="zh">精選評分 4.5⭐ 以上</span><span class="en">Top Rated 4.5⭐ & Above</span>
+            </span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">
+                🥢 <span class="zh">東亞美食推薦 (景點周邊)</span><span class="en">East Asian Dining Picks (Near Attractions)</span>
+            </h2>
+            <p class="text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                <span class="zh">在歐洲旅行，小朋友有時會想念米飯和熱湯！為您精選愛丁堡與格拉斯哥「各景點周邊」的日、韓、中、港式及馬來西亞料理，並附上餐點實拍照，拯救家鄉胃！</span>
+                <span class="en">Kids often crave rice and warm broth during European trips! Here are the top-rated East Asian restaurants (Japanese, Korean, Chinese, HK, Malaysian) located near your planned attractions.</span>
+            </p>
+        </div>
+
+        <!-- Edinburgh Restaurants -->
+        <div class="mb-16">
+            <h3 class="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-2 border-b-2 border-orange-400 pb-2 inline-flex">
+                <i class="fa-solid fa-map-pin text-orange-500"></i>
+                <span class="zh">愛丁堡景點周邊</span><span class="en">Near Edinburgh Attractions</span>
+            </h3>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Kim's Mini Meals -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-md flex flex-col sm:flex-row border border-slate-200 hover:shadow-xl transition duration-300">
+                    <div class="sm:w-2/5 h-56 sm:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1553163147-622ab57be1c7?auto=format&fit=crop&w=800&q=80" alt="Bibimbap" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-slate-800 font-bold px-2 py-1 rounded text-xs shadow">4.7 ⭐</div>
+                    </div>
+                    <div class="p-5 sm:w-3/5 flex flex-col justify-center">
+                        <h4 class="font-bold text-lg text-slate-800 mb-1">Kim's Mini Meals</h4>
+                        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                            🇰🇷 <span class="zh">韓國家常菜</span><span class="en">Korean Homestyle</span>
+                        </p>
+                        <p class="text-xs font-bold text-orange-600 bg-orange-50 inline-block px-2 py-1 rounded mb-3 self-start">
+                            <i class="fa-solid fa-location-arrow mr-1"></i> <span class="zh">近 國家博物館 / 老城區</span><span class="en">Near National Museum / Old Town</span>
+                        </p>
+                        <p class="text-slate-600 text-sm">
+                            <span class="zh">道地的韓國家常菜，店面小但美味驚人。熱騰騰的石鍋拌飯與湯品，是參觀完博物館後最完美的選擇！</span>
+                            <span class="en">Authentic Korean home-style cooking. Hot sizzling bibimbap and stews are perfect after exploring the museum!</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Kampung Ah Lee -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-md flex flex-col sm:flex-row border border-slate-200 hover:shadow-xl transition duration-300">
+                    <div class="sm:w-2/5 h-56 sm:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=800&q=80" alt="Malaysian Curry" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-slate-800 font-bold px-2 py-1 rounded text-xs shadow">4.5 ⭐</div>
+                    </div>
+                    <div class="p-5 sm:w-3/5 flex flex-col justify-center">
+                        <h4 class="font-bold text-lg text-slate-800 mb-1">Kampung Ah Lee</h4>
+                        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                            🇲🇾 <span class="zh">馬來西亞風味</span><span class="en">Malaysian Cuisine</span>
+                        </p>
+                        <p class="text-xs font-bold text-orange-600 bg-orange-50 inline-block px-2 py-1 rounded mb-3 self-start">
+                            <i class="fa-solid fa-location-arrow mr-1"></i> <span class="zh">近 國家博物館 / 老城區</span><span class="en">Near National Museum / Old Town</span>
+                        </p>
+                        <p class="text-slate-600 text-sm">
+                            <span class="zh">提供極棒的椰漿飯、叻沙湯麵與沙嗲肉串。風味濃郁的咖哩絕對能讓大人小孩都吃得非常滿足。</span>
+                            <span class="en">Fantastic Nasi Lemak, Laksa noodles, and chicken satay. The rich curries will satisfy both adults and kids perfectly.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Maki & Ramen -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-md flex flex-col sm:flex-row border border-slate-200 hover:shadow-xl transition duration-300">
+                    <div class="sm:w-2/5 h-56 sm:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1557872943-16a5ac26437e?auto=format&fit=crop&w=800&q=80" alt="Tonkotsu Ramen" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-slate-800 font-bold px-2 py-1 rounded text-xs shadow">4.6 ⭐</div>
+                    </div>
+                    <div class="p-5 sm:w-3/5 flex flex-col justify-center">
+                        <h4 class="font-bold text-lg text-slate-800 mb-1">Maki & Ramen</h4>
+                        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                            🇯🇵 <span class="zh">日式拉麵與壽司</span><span class="en">Japanese Ramen & Sushi</span>
+                        </p>
+                        <p class="text-xs font-bold text-orange-600 bg-orange-50 inline-block px-2 py-1 rounded mb-3 self-start">
+                            <i class="fa-solid fa-location-arrow mr-1"></i> <span class="zh">近 王子街花園 / 城堡</span><span class="en">Near Princes St Gardens / Castle</span>
+                        </p>
+                        <p class="text-slate-600 text-sm">
+                            <span class="zh">濃郁的豚骨湯頭與新鮮壽司。在王子街花園吹完風後來一碗熱騰騰的拉麵最棒了！</span>
+                            <span class="en">Rich tonkotsu broth and fresh sushi. A comforting warm bowl after a windy walk in Princes Street Gardens.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rendezvous Chinese Restaurant -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-md flex flex-col sm:flex-row border border-slate-200 hover:shadow-xl transition duration-300">
+                    <div class="sm:w-2/5 h-56 sm:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=800&q=80" alt="Dim Sum / Dumplings" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-slate-800 font-bold px-2 py-1 rounded text-xs shadow">4.5 ⭐</div>
+                    </div>
+                    <div class="p-5 sm:w-3/5 flex flex-col justify-center">
+                        <h4 class="font-bold text-lg text-slate-800 mb-1">Rendezvous Restaurant</h4>
+                        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                            🇭🇰 <span class="zh">港式飲茶與粵菜</span><span class="en">HK Dim Sum & Cantonese</span>
+                        </p>
+                        <p class="text-xs font-bold text-orange-600 bg-orange-50 inline-block px-2 py-1 rounded mb-3 self-start">
+                            <i class="fa-solid fa-location-arrow mr-1"></i> <span class="zh">近 王子街花園</span><span class="en">Near Princes St Gardens</span>
+                        </p>
+                        <p class="text-slate-600 text-sm">
+                            <span class="zh">提供正宗的港式點心（蝦餃、燒賣）以及廣式燒鴨。空間寬敞舒適，非常適合帶推車的家庭用餐。</span>
+                            <span class="en">Offers authentic HK dim sum (Har Gow, Siu Mai) and roast duck. Spacious interior making it very stroller-friendly.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Glasgow Restaurants -->
+        <div>
+            <h3 class="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-2 border-b-2 border-rose-400 pb-2 inline-flex">
+                <i class="fa-solid fa-map-pin text-rose-500"></i>
+                <span class="zh">格拉斯哥景點周邊</span><span class="en">Near Glasgow Attractions</span>
+            </h3>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Dumpling Monkey -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-md flex flex-col sm:flex-row border border-slate-200 hover:shadow-xl transition duration-300">
+                    <div class="sm:w-2/5 h-56 sm:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=800&q=80" alt="Chinese Dumplings" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-slate-800 font-bold px-2 py-1 rounded text-xs shadow">4.6 ⭐</div>
+                    </div>
+                    <div class="p-5 sm:w-3/5 flex flex-col justify-center">
+                        <h4 class="font-bold text-lg text-slate-800 mb-1">Dumpling Monkey</h4>
+                        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                            🇨🇳 <span class="zh">中式麵點/手工餃子</span><span class="en">Chinese Dumplings & Bao</span>
+                        </p>
+                        <p class="text-xs font-bold text-rose-600 bg-rose-50 inline-block px-2 py-1 rounded mb-3 self-start">
+                            <i class="fa-solid fa-location-arrow mr-1"></i> <span class="zh">近 凱文葛羅夫博物館</span><span class="en">Near Kelvingrove Museum</span>
+                        </p>
+                        <p class="text-slate-600 text-sm">
+                            <span class="zh">距離博物館僅步行的距離！提供極棒的鍋貼、小籠包與熱湯麵。出餐極快，對小朋友非常友善。</span>
+                            <span class="en">Walking distance from the museum! Fantastic potstickers, bao, and noodle soups. Very family-friendly and fast service.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ka Pao -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-md flex flex-col sm:flex-row border border-slate-200 hover:shadow-xl transition duration-300">
+                    <div class="sm:w-2/5 h-56 sm:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80" alt="Asian Skewers" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-slate-800 font-bold px-2 py-1 rounded text-xs shadow">4.7 ⭐</div>
+                    </div>
+                    <div class="p-5 sm:w-3/5 flex flex-col justify-center">
+                        <h4 class="font-bold text-lg text-slate-800 mb-1">Ka Pao</h4>
+                        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                            🇲🇾 <span class="zh">東南亞/馬來西亞燒烤</span><span class="en">SE Asian / Malaysian Grill</span>
+                        </p>
+                        <p class="text-xs font-bold text-rose-600 bg-rose-50 inline-block px-2 py-1 rounded mb-3 self-start">
+                            <i class="fa-solid fa-location-arrow mr-1"></i> <span class="zh">近 凱文葛羅夫 / 植物園</span><span class="en">Near Kelvingrove / Botanic G.</span>
+                        </p>
+                        <p class="text-slate-600 text-sm">
+                            <span class="zh">米其林必比登推薦！環境舒適明亮，能品嚐令人驚豔的東南亞沙爹肉串與麵食，強烈建議提前訂位。</span>
+                            <span class="en">Michelin Bib Gourmand! Incredible Southeast Asian skewers and noodles in a spacious setting. Booking highly recommended.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Silla Korean -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-md flex flex-col sm:flex-row border border-slate-200 hover:shadow-xl transition duration-300">
+                    <div class="sm:w-2/5 h-56 sm:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1548247661-3d7905940716?auto=format&fit=crop&w=800&q=80" alt="Korean BBQ" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-slate-800 font-bold px-2 py-1 rounded text-xs shadow">4.5 ⭐</div>
+                    </div>
+                    <div class="p-5 sm:w-3/5 flex flex-col justify-center">
+                        <h4 class="font-bold text-lg text-slate-800 mb-1">Silla Korean</h4>
+                        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                            🇰🇷 <span class="zh">韓式烤肉與鍋物</span><span class="en">Korean BBQ & Stews</span>
+                        </p>
+                        <p class="text-xs font-bold text-rose-600 bg-rose-50 inline-block px-2 py-1 rounded mb-3 self-start">
+                            <i class="fa-solid fa-location-arrow mr-1"></i> <span class="zh">近 河濱博物館</span><span class="en">Near Riverside Museum</span>
+                        </p>
+                        <p class="text-slate-600 text-sm">
+                            <span class="zh">距離河濱博物館僅一小段車程。提供極佳的韓式烤肉、海鮮煎餅與豆腐鍋，保證能滿足全家人的胃口。</span>
+                            <span class="en">Just a short drive from Riverside Museum. Excellent Korean BBQ, crispy seafood pancakes, and warm comforting stews.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Nam Tuk Tram Stop -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-md flex flex-col sm:flex-row border border-slate-200 hover:shadow-xl transition duration-300">
+                    <div class="sm:w-2/5 h-56 sm:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1626804475297-41607ea0d5eb?auto=format&fit=crop&w=800&q=80" alt="Bao Buns" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-slate-800 font-bold px-2 py-1 rounded text-xs shadow">4.6 ⭐</div>
+                    </div>
+                    <div class="p-5 sm:w-3/5 flex flex-col justify-center">
+                        <h4 class="font-bold text-lg text-slate-800 mb-1">Nam Tuk Tram Stop</h4>
+                        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                            🇭🇰 <span class="zh">港式街頭小吃/刈包</span><span class="en">HK Street Food / Bao Buns</span>
+                        </p>
+                        <p class="text-xs font-bold text-rose-600 bg-rose-50 inline-block px-2 py-1 rounded mb-3 self-start">
+                            <i class="fa-solid fa-location-arrow mr-1"></i> <span class="zh">近 河濱博物館</span><span class="en">Near Riverside Museum</span>
+                        </p>
+                        <p class="text-slate-600 text-sm">
+                            <span class="zh">裝潢極具街頭特色！主打港式點心、美味的刈包 (Bao buns) 和炒麵，距離河濱博物館非常近，好吃又好拍。</span>
+                            <span class="en">Cool street-style decor! Specializes in HK dim sum, fluffy bao buns, and noodles. Very close to the Riverside Museum.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Attractions Details Section -->
+    <section class="py-20 bg-brand-light/30 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">
+                    🌟 <span class="zh">亮點景點深度解析</span><span class="en">Attraction Highlights Deep Dive</span>
+                </h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1505508608836-8e58602b9f36?w=800&q=80" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Edinburgh+Castle';" alt="Edinburgh Castle" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">收費 🎟️</span><span class="en">Paid 🎟️</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">愛丁堡城堡</span><span class="en">Edinburgh Castle</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">坐落在死火山上的宏偉要塞。孩子們可以尋找大砲，下午一點準時觀看的「一點鐘響炮」更是重頭戲。</span>
+                            <span class="en">A magnificent fortress on an extinct volcano. Kids can find cannons, and the "One O'Clock Gun" is a major highlight.</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-circle-info text-brand w-5"></i> 
+                                <span class="zh">建議提前網上購買家庭票</span><span class="en">Advised to buy family tickets online</span>
+                            </li>
+                            <li><i class="fa-solid fa-baby-carriage text-brand w-5"></i> 
+                                <span class="zh">地面有鵝卵石，大輪推車較佳</span><span class="en">Cobblestone ground, large strollers are best</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1588628566587-ba11eb8ce387?w=800&q=80" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=The+Kelpies';" alt="The Kelpies" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">免費 🆓</span><span class="en">Free 🆓</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">The Kelpies 馬頭水神</span><span class="en">The Kelpies</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">位於福爾柯克，高達30公尺的巨型閃亮馬頭雕塑！所在公園擁有超大免費遊樂設施。</span>
+                            <span class="en">Located in Falkirk, giant 30m gleaming horse head sculptures! The park has a huge free playground.</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-square-parking text-brand w-5"></i> 
+                                <span class="zh">現場有大型付費停車場</span><span class="en">Large paid parking available on site</span>
+                            </li>
+                            <li><i class="fa-solid fa-camera text-brand w-5"></i> 
+                                <span class="zh">外觀拍照與遊樂場全免費</span><span class="en">Exterior photos & playground completely free</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1503925760432-84950e1aa0eb?w=800&q=80" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Riverside+Museum';" alt="Riverside Museum Train" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">免費 🆓</span><span class="en">Free 🆓</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">河濱博物館</span><span class="en">Riverside Museum</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">歐洲最佳交通博物館，裡面有一整條可以走進去的復古商店街、古董電車與火車。</span>
+                            <span class="en">Europe's best transport museum, featuring a walkable vintage street, antique trams, and trains.</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-child-reaching text-brand w-5"></i> 
+                                <span class="zh">互動性極高，可登車體驗</span><span class="en">Highly interactive, step aboard vehicles</span>
+                            </li>
+                            <li><i class="fa-solid fa-square-parking text-brand w-5"></i> 
+                                <span class="zh">門口即有專屬大型停車場</span><span class="en">Dedicated large parking right at entrance</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1506452305024-9d3f02d1c9b5?w=800&q=80" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Loch+Lomond';" alt="Loch Lomond" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">免費 🆓</span><span class="en">Free 🆓</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">羅夢湖 (Luss小鎮)</span><span class="en">Loch Lomond (Luss)</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">偽高地探險首選！從格拉斯哥開車僅40分鐘。風景如畫的湖泊，可以餵鴨子、踏浪。附近還有專為兒童設計的「精靈小徑」。</span>
+                            <span class="en">Top mock-Highland adventure! Just 40 mins from Glasgow. Picturesque loch for feeding ducks and splashing. Nearby "Faerie Trail" designed for kids.</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-water text-brand w-5"></i> 
+                                <span class="zh">體驗高地風情免去長途車程</span><span class="en">Highland vibes without the long drive</span>
+                            </li>
+                            <li><i class="fa-solid fa-ticket text-brand w-5"></i> 
+                                <span class="zh">精靈小徑需額外購買門票</span><span class="en">Faerie Trail requires extra tickets</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1559863481-9b165b430635?w=800&q=80" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Highland+Cow';" alt="Highland Cow" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">免費 🆓</span><span class="en">Free 🆓</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">波洛克郊野公園</span><span class="en">Pollok Country Park</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">位於格拉斯哥市區的巨大綠地，最大亮點是可以近距離安全地觀看蘇格蘭國寶：長著劉海的可愛「高地牛」！</span>
+                            <span class="en">Huge green space in Glasgow. The biggest highlight is safely spotting the adorable fringe-haired "Highland Cows" up close!</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-location-dot text-brand w-5"></i> 
+                                <span class="zh">導航至 Burrell Collection 停車場最近</span><span class="en">Navigate to Burrell Collection parking</span>
+                            </li>
+                            <li><i class="fa-solid fa-tree text-brand w-5"></i> 
+                                <span class="zh">廣大的森林步道非常適合推車</span><span class="en">Vast forest trails are stroller-friendly</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                 <!-- Card 6 -->
+                 <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1595180425330-819ebfcd1b99?w=800&q=80" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Park+Playground';" alt="Playground" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">免費 🆓</span><span class="en">Free 🆓</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">Saughton Park 遊樂場</span><span class="en">Saughton Park Playground</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">愛丁堡隱藏版頂級公園！擁有超大的共融式兒童遊樂區、踩水池與沙坑，旁邊還有美麗的玫瑰花園。</span>
+                            <span class="en">Edinburgh's hidden gem! Features a huge inclusive playground, splash pad, sandpit, and beautiful rose gardens.</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-shirt text-brand w-5"></i> 
+                                <span class="zh">建議多帶一套備用衣物（有水/沙）</span><span class="en">Bring spare clothes (water/sand play)</span>
+                            </li>
+                            <li><i class="fa-solid fa-mug-hot text-brand w-5"></i> 
+                                <span class="zh">園內有咖啡廳供家長休息</span><span class="en">Cafe inside for parents to relax</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-10 text-center text-sm border-t border-slate-800">
+        <p class="mb-2">
+            <span class="zh">專為您的家庭訂製的 6天5夜 蘇格蘭雙城自駕探險</span>
+            <span class="en">Custom 6-Day 5-Night Scotland Two-City Self-Drive Adventure for your family.</span>
+        </p>
+        <p>© 2026 Family Travel Planner. Have a magical journey! 🏴󠁧󠁢󠁳󠁣󠁴󠁿</p>
+    </footer>
+
+    <!-- Go to Top Button -->
+    <button id="scrollTopBtn" onclick="scrollToTop()" class="fixed bottom-8 right-8 bg-orange-500 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-orange-600 transition-all duration-300 transform hover:-translate-y-1 z-[9999] opacity-0 pointer-events-none translate-y-4">
+        <i class="fa-solid fa-arrow-up text-2xl"></i>
+    </button>
+
+    <!-- Interactive Map Script & Lang Toggle -->
+    <script>
+        // Language Toggle Logic
+        function toggleLanguage() {
+            const body = document.body;
+            const btnEn = document.getElementById('btn-en');
+            const btnZh = document.getElementById('btn-zh');
+            
+            if (body.classList.contains('lang-en')) {
+                // Switch to Chinese
+                body.classList.remove('lang-en');
+                body.classList.add('lang-zh');
+                btnEn.className = 'text-slate-400 font-normal';
+                btnZh.className = 'text-brand font-black';
+            } else {
+                // Switch to English
+                body.classList.remove('lang-zh');
+                body.classList.add('lang-en');
+                btnZh.className = 'text-slate-400 font-normal';
+                btnEn.className = 'text-brand font-black';
+            }
+        }
+
+        // Map Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化地圖，設定中心點位於愛丁堡與格拉斯哥之間
+            var map = L.map('itinerary-map').setView([55.95, -3.8], 9);
+
+            // 載入 OpenStreetMap 圖層
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // 定義景點座標與 Emoji (Added Bilingual strings)
+            var attractions = [
+                { nameZh: "愛丁堡城堡", nameEn: "Edinburgh Castle", loc: [55.9486, -3.2008], emoji: "🏰" },
+                { nameZh: "王子街花園", nameEn: "Princes St Gardens", loc: [55.9500, -3.1989], emoji: "🌳" },
+                { nameZh: "維多利亞街", nameEn: "Victoria Street", loc: [55.9482, -3.1933], emoji: "🪄" },
+                { nameZh: "Saughton Park 遊樂場", nameEn: "Saughton Park", loc: [55.9351, -3.2458], emoji: "🛝" },
+                { nameZh: "The Kelpies 馬頭水神", nameEn: "The Kelpies", loc: [56.0192, -3.7554], emoji: "🐴" },
+                { nameZh: "福爾柯克輪 (船舶電梯)", nameEn: "Falkirk Wheel", loc: [56.0004, -3.8415], emoji: "⚙️" },
+                { nameZh: "河濱博物館", nameEn: "Riverside Museum", loc: [55.8651, -4.3065], emoji: "🚆" },
+                { nameZh: "凱文葛羅夫博物館", nameEn: "Kelvingrove Museum", loc: [55.8686, -4.2905], emoji: "✈️" },
+                { nameZh: "羅夢湖 (Luss小鎮)", nameEn: "Loch Lomond (Luss)", loc: [56.1017, -4.6346], emoji: "🦆" },
+                { nameZh: "波洛克郊野公園 (高地牛)", nameEn: "Pollok Country Park", loc: [55.8290, -4.3086], emoji: "🐮" }
+            ];
+
+            // 加入客製化地標至地圖中
+            attractions.forEach(function(place) {
+                var customIcon = L.divIcon({
+                    className: 'custom-icon',
+                    html: "<div style='background-color:#0284c7; color:white; width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:50%; border:3px solid white; box-shadow:0 4px 6px rgba(0,0,0,0.3); font-size:18px;'>" + place.emoji + "</div>",
+                    iconSize: [36, 36],
+                    iconAnchor: [18, 18],
+                    popupAnchor: [0, -18]
+                });
+                
+                L.marker(place.loc, {icon: customIcon}).addTo(map)
+                    .bindPopup("<strong style='color:#075985; font-size:16px;'><span class='zh'>" + place.nameZh + "</span><span class='en'>" + place.nameEn + "</span></strong>");
+            });
+        });
+
+        // Go to Top Logic
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.remove('opacity-100', 'translate-y-0');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
