@@ -115,6 +115,14 @@
                     <i class="fa-solid fa-map-location-dot mr-2"></i> 
                     <span class="zh">查看行程</span><span class="en">View Itinerary</span>
                 </a>
+                <a href="#map-section" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white/10 transition">
+                    <i class="fa-solid fa-map mr-2"></i> 
+                    <span class="zh">行程地圖</span><span class="en">Trip Map</span>
+                </a>
+                <a href="#transport-plan" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white/10 transition">
+                    <i class="fa-solid fa-route mr-2"></i> 
+                    <span class="zh">交通規劃</span><span class="en">Transport Plan</span>
+                </a>
                 <a href="#hotels" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white/10 transition">
                     <i class="fa-solid fa-bed mr-2"></i> 
                     <span class="zh">住宿推薦</span><span class="en">Hotel Picks</span>
@@ -325,6 +333,103 @@
             <div id="itinerary-map" class="w-full h-[500px] rounded-2xl z-0 relative"></div>
         </div>
     </section>
+
+    <!-- Transport Plan Section -->
+    <section id="transport-plan" class="py-16 px-6 max-w-6xl mx-auto bg-white rounded-[3rem] shadow-sm border border-slate-100 mt-10">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-extrabold text-slate-800 mb-4">
+            🚌 <span class="zh">交通接駁全攻略</span><span class="en">Transport Master Plan</span>
+        </h2>
+        <p class="text-slate-500 font-bold"><span class="zh">針對 7 人團體 (4大3小) 的最優化路徑</span><span class="en">Optimized routes for 7 people (4A3C)</span></p>
+    </div>
+
+    <div class="mb-16">
+        <h3 class="text-xl font-black mb-6 flex items-center gap-2 text-brand">
+            <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center">02</span>
+            <span class="zh">Day 2 愛丁堡進城選擇</span><span class="en">Day 2 Edinburgh Commute Options</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="relative p-6 rounded-3xl border-2 border-slate-100 bg-slate-50 hover:border-brand transition-all group">
+                <div class="absolute -top-3 right-6 bg-brand text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">Fastest / 最快</div>
+                <h4 class="font-bold text-lg mb-4 italic">Option 1: Drive + Train</h4>
+                <div class="flex items-center gap-2 mb-6 text-slate-400 text-sm overflow-hidden whitespace-nowrap">
+                    <i class="fa-solid fa-hotel"></i> <div class="h-px w-8 bg-slate-200"></div>
+                    <i class="fa-solid fa-car text-brand"></i> <div class="h-px w-8 bg-slate-200"></div>
+                    <span class="text-[10px] font-bold">P+R</span> <div class="h-px w-8 bg-slate-200"></div>
+                    <i class="fa-solid fa-train text-brand"></i> <div class="h-px w-8 bg-slate-200"></div>
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
+                        <p class="text-[10px] text-slate-400 font-black uppercase mb-1">Time / 時間</p>
+                        <p class="font-black text-slate-700">~ 35 mins</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-brand">
+                        <p class="text-[10px] text-slate-400 font-black uppercase mb-1">Total Cost / 費用</p>
+                        <p class="font-black text-brand text-xl">£28.60</p>
+                    </div>
+                </div>
+                <p class="mt-4 text-xs text-slate-500 leading-relaxed font-medium italic">
+                    * 利用 ScotRail "Kids for a Quid" 優惠，1位大人可帶2位小孩(每人£1)。
+                </p>
+            </div>
+
+            <div class="p-6 rounded-3xl border-2 border-slate-100 bg-slate-50 hover:border-orange-400 transition-all group">
+                <h4 class="font-bold text-lg mb-4 italic">Option 2: Bus/Tram Day Pass</h4>
+                <div class="flex items-center gap-2 mb-6 text-slate-400 text-sm">
+                    <i class="fa-solid fa-hotel"></i> <div class="h-px w-12 bg-slate-200"></div>
+                    <i class="fa-solid fa-bus text-orange-500"></i> <div class="h-px w-12 bg-slate-200"></div>
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
+                        <p class="text-[10px] text-slate-400 font-black uppercase mb-1">Time / 時間</p>
+                        <p class="font-black text-slate-700">~ 60 mins</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-orange-400">
+                        <p class="text-[10px] text-slate-400 font-black uppercase mb-1">Total Cost / 費用</p>
+                        <p class="font-black text-orange-600 text-xl text-center">£25.00</p>
+                    </div>
+                </div>
+                <p class="mt-4 text-xs text-slate-500 leading-relaxed font-medium italic text-center">
+                    * 家庭一日票(2大3小) £13 + 2位大人一日券 £12。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+                    <th class="pb-4 px-2">Day / 日期</th>
+                    <th class="pb-4 px-2">Route / 路線</th>
+                    <th class="pb-4 px-2 text-center text-brand">Cost / 預計費用</th>
+                    <th class="pb-4 px-2 text-center">Time / 時間</th>
+                </tr>
+            </thead>
+            <tbody class="text-sm font-bold text-slate-600">
+                <tr class="border-b border-slate-50">
+                    <td class="py-4 px-2 font-black">Day 4</td>
+                    <td class="py-4 px-2">Stepps ➔ Glasgow (Train)</td>
+                    <td class="py-4 px-2 text-center text-brand">£19.60</td>
+                    <td class="py-4 px-2 text-center">17 mins</td>
+                </tr>
+                <tr class="border-b border-slate-50 bg-brand/5">
+                    <td class="py-4 px-2 font-black">Day 3/5/6</td>
+                    <td class="py-4 px-2 text-brand uppercase text-[10px]">Parking Tips / 泊車預算</td>
+                    <td colspan="2" class="py-4 px-2">
+                        <div class="flex flex-wrap gap-2 justify-end">
+                            <span class="bg-white border px-3 py-1 rounded-full text-[10px]">🐴 Kelpies: £5</span>
+                            <span class="bg-white border px-3 py-1 rounded-full text-[10px]">🦆 Luss: £2/hr</span>
+                            <span class="bg-white border px-3 py-1 rounded-full text-[10px]">🐮 Pollok: £7 (4hrs)</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 
     <!-- Hotels Section -->
     <section id="hotels" class="py-20 px-6 max-w-6xl mx-auto border-t border-slate-200">
