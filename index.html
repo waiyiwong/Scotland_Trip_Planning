@@ -322,15 +322,179 @@
         </div>
     </section>
 
-    <!-- Interactive Map Section -->
-    <section id="map-section" class="py-16 px-6 max-w-6xl mx-auto">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">
-                🗺️ <span class="zh">雙城探險景點地圖</span><span class="en">Two-City Adventure Map</span>
-            </h2>
-        </div>
-        <div class="bg-white p-3 rounded-3xl shadow-xl border border-slate-200">
-            <div id="itinerary-map" class="w-full h-[500px] rounded-2xl z-0 relative"></div>
+    <!-- Attractions Details Section -->
+    <section class="py-20 bg-brand-light/30 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">
+                    🌟 <span class="zh">亮點景點深度解析</span><span class="en">Attraction Highlights Deep Dive</span>
+                </h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="image/Edinburgh_Castle.webp" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Edinburgh+Castle';" alt="Edinburgh Castle" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">收費 🎟️</span><span class="en">Paid 🎟️</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">愛丁堡城堡</span><span class="en">Edinburgh Castle</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">坐落在死火山上的宏偉要塞。孩子們可以尋找大砲，下午一點準時觀看的「一點鐘響炮」更是重頭戲。</span>
+                            <span class="en">A magnificent fortress on an extinct volcano. Kids can find cannons, and the "One O'Clock Gun" is a major highlight.</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-circle-info text-brand w-5"></i> 
+                                <span class="zh">建議提前網上購買家庭票</span><span class="en">Advised to buy family tickets online</span>
+                            </li>
+                            <li><i class="fa-solid fa-baby-carriage text-brand w-5"></i> 
+                                <span class="zh">地面有鵝卵石，大輪推車較佳</span><span class="en">Cobblestone ground, large strollers are best</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="image/kelpies.jpg" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=The+Kelpies';" alt="The Kelpies" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">免費 🆓</span><span class="en">Free 🆓</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">The Kelpies 馬頭水神</span><span class="en">The Kelpies</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">位於福爾柯克，高達30公尺的巨型閃亮馬頭雕塑！所在公園擁有超大免費遊樂設施。</span>
+                            <span class="en">Located in Falkirk, giant 30m gleaming horse head sculptures! The park has a huge free playground.</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-square-parking text-brand w-5"></i> 
+                                <span class="zh">現場有大型付費停車場</span><span class="en">Large paid parking available on site</span>
+                            </li>
+                            <li><i class="fa-solid fa-camera text-brand w-5"></i> 
+                                <span class="zh">外觀拍照與遊樂場全免費</span><span class="en">Exterior photos & playground completely free</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="image/Kelvingrove_Museum.jpeg" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Kelvingrove+Museum';" alt="Kelvingrove Museum Organ" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">免費 🆓</span><span class="en">Free 🆓</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">凱文葛羅夫博物館</span><span class="en">Kelvingrove Museum</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">格拉斯哥最受歡迎的博物館！除了滿滿的動物標本與懸掛的戰鬥機，中央大廳每天下午 1 點（週日 3 點）還有免費的管風琴演奏。</span>
+                            <span class="en">Glasgow's favorite museum! Features animal exhibits, a Spitfire plane, and free daily 30-min pipe organ recitals in the Centre Hall (1 PM Mon-Sat, 3 PM Sun).</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-music text-brand w-5"></i> 
+                                <span class="zh">免費管風琴演奏約30分鐘</span><span class="en">Free organ recital lasts ~30 mins</span>
+                            </li>
+                            <li><i class="fa-solid fa-plane text-brand w-5"></i> 
+                                <span class="zh">必看二戰噴火式戰鬥機</span><span class="en">Don't miss the WWII Spitfire</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="image/luss.jpg" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Loch+Lomond';" alt="Loch Lomond" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">免費 🆓</span><span class="en">Free 🆓</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">羅夢湖 (Luss小鎮)</span><span class="en">Loch Lomond (Luss)</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">偽高地探險首選！從格拉斯哥開車僅40分鐘。風景如畫的湖泊，可以餵鴨子、踏浪。附近還有專為兒童設計的「精靈小徑」。</span>
+                            <span class="en">Top mock-Highland adventure! Just 40 mins from Glasgow. Picturesque loch for feeding ducks and splashing. Nearby "Faerie Trail" designed for kids.</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-water text-brand w-5"></i> 
+                                <span class="zh">體驗高地風情免去長途車程</span><span class="en">Highland vibes without the long drive</span>
+                            </li>
+                            <li><i class="fa-solid fa-ticket text-brand w-5"></i> 
+                                <span class="zh">精靈小徑需額外購買門票</span><span class="en">Faerie Trail requires extra tickets</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="image/pollock.jpeg" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Pollok+Country+Park';" alt="Loch Lomond" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">免費 🆓</span><span class="en">Free 🆓</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">波洛克郊野公園</span><span class="en">Pollok Country Park</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">位於格拉斯哥市區的巨大綠地，最大亮點是可以近距離安全地觀看蘇格蘭國寶：長著劉海的可愛「高地牛」！</span>
+                            <span class="en">Huge green space in Glasgow. The biggest highlight is safely spotting the adorable fringe-haired "Highland Cows" up close!</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-location-dot text-brand w-5"></i> 
+                                <span class="zh">導航至 Burrell Collection 停車場最近</span><span class="en">Navigate to Burrell Collection parking</span>
+                            </li>
+                            <li><i class="fa-solid fa-tree text-brand w-5"></i> 
+                                <span class="zh">廣大的森林步道非常適合推車</span><span class="en">Vast forest trails are stroller-friendly</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                 <!-- Card 6 -->
+                 <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-200 relative overflow-hidden group">
+                        <img src="image/Saughton.jpg" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Park+Playground';" alt="Playground" class="object-cover w-full h-full transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                            <span class="zh">免費 🆓</span><span class="en">Free 🆓</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-xl font-bold mb-2">
+                            <span class="zh">Saughton Park 遊樂場</span><span class="en">Saughton Park Playground</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-4">
+                            <span class="zh">愛丁堡隱藏版頂級公園！擁有超大的共融式兒童遊樂區、踩水池與沙坑，旁邊還有美麗的玫瑰花園。</span>
+                            <span class="en">Edinburgh's hidden gem! Features a huge inclusive playground, splash pad, sandpit, and beautiful rose gardens.</span>
+                        </p>
+                        <ul class="text-sm text-slate-500 space-y-1 mt-auto border-t pt-4">
+                            <li><i class="fa-solid fa-shirt text-brand w-5"></i> 
+                                <span class="zh">建議多帶一套備用衣物（有水/沙）</span><span class="en">Bring spare clothes (water/sand play)</span>
+                            </li>
+                            <li><i class="fa-solid fa-mug-hot text-brand w-5"></i> 
+                                <span class="zh">園內有咖啡廳供家長休息</span><span class="en">Cafe inside for parents to relax</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </section>
 
@@ -436,6 +600,18 @@
         </table>
     </div>
 </section>
+
+    <!-- Interactive Map Section -->
+    <section id="map-section" class="py-16 px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">
+                🗺️ <span class="zh">雙城探險景點地圖</span><span class="en">Two-City Adventure Map</span>
+            </h2>
+        </div>
+        <div class="bg-white p-3 rounded-3xl shadow-xl border border-slate-200">
+            <div id="itinerary-map" class="w-full h-[500px] rounded-2xl z-0 relative"></div>
+        </div>
+    </section>
 
     <!-- Hotels Section -->
     <section id="hotels" class="py-20 px-6 max-w-6xl mx-auto border-t border-slate-200">
