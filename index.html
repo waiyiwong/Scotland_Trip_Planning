@@ -511,64 +511,97 @@
     </section>
 
     <!-- Transport Plan Section -->
-    <section id="transport-plan" class="py-16 px-6 max-w-6xl mx-auto bg-white rounded-[3rem] shadow-sm border border-slate-100 mt-10">
-    <div class="text-center mb-12">
-        <h2 class="text-3xl font-extrabold text-slate-800 mb-4">
-            🚌 <span class="zh">交通接駁全攻略</span><span class="en">Transport Master Plan</span>
-        </h2>
-        <p class="text-slate-500 font-bold"><span class="zh">針對 7 人團體 (4大3小) 的最優化路徑</span><span class="en">Optimized routes for 7 people (4A3C)</span></p>
-    </div>
+    <section id="transport-plan" class="py-16 px-6 max-w-6xl mx-auto bg-white rounded-[3rem] shadow-sm border border-slate-100 mt-10 overflow-hidden">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-4">🚌 <span class="zh">交通接駁全攻略</span><span class="en">Transport Master Plan</span></h2>
+            <p class="text-slate-500 font-bold"><span class="zh">針對 7 人團體 (4大3小) 的最優化路徑</span><span class="en">Optimized routes for 7 people (4A3C)</span></p>
+        </div>
 
-    <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
-            <thead>
-                <tr class="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
-                    <th class="pb-4 px-2">Day / 日期</th>
-                    <th class="pb-4 px-2">Route / 路線</th>
-                    <th class="pb-4 px-2 text-center text-brand">Cost / 預計費用</th>
-                    <th class="pb-4 px-2 text-center">Time / 時間</th>
-                </tr>
-            </thead>
-            <tbody class="text-sm font-bold text-slate-600">
-                <tr class="border-b border-slate-50">
-                    <td class="py-4 px-2 font-black">Day 2 Option 1</td>
-                    <td class="py-4 px-2">Hotel ➔ P&R + Train into Edinburgh</td>
-                    <td class="py-4 px-2 text-center text-brand">£28.60 (ScotRail "Kids for a Quid" )</td>
-                    <td class="py-4 px-2 text-center">~35 mins</td>
-                </tr>
-                <tr class="border-b border-slate-50">
-                    <td class="py-4 px-2 font-black">Day 2 Option 2</td>
-                    <td class="py-4 px-2">Hotel ➔ Bus/Tram Day Pass</td>
-                    <td class="py-4 px-2 text-center text-brand">£25 (family(2A3C)£13+ 2A £12)</td>
-                    <td class="py-4 px-2 text-center">~60 mins</td>
-                </tr>
-                <tr class="border-b border-slate-50">
-                    <td class="py-4 px-2 font-black">Day 4 Option 1</td>
-                    <td class="py-4 px-2">Stepps Station ➔ Glasgow Queen St (Train)</td>
-                    <td class="py-4 px-2 text-center text-brand">£19.60</td>
-                    <td class="py-4 px-2 text-center">~35 mins</td>
-                </tr>
-                <tr class="border-b border-slate-50">
-                    <td class="py-4 px-2 font-black">Day 4 Option 2</td>
-                    <td class="py-4 px-2">Glasgow Bus/Tram Day Pass</td>
-                    <td class="py-4 px-2 text-center text-brand">£7.20 pp (under 5 free)</td>
-                    <td class="py-4 px-2 text-center">~31 mins</td>
-                </tr>
-                <tr class="border-b border-slate-50 bg-brand/5">
-                    <td class="py-4 px-2 font-black">Day 3/5/6</td>
-                    <td class="py-4 px-2 text-brand uppercase text-[10px]">Parking / 泊車預算</td>
-                    <td colspan="2" class="py-4 px-2">
-                        <div class="flex flex-wrap gap-2 justify-end">
-                            <span class="bg-white border px-3 py-1 rounded-full text-[10px]">🐴 Kelpies: £5</span>
-                            <span class="bg-white border px-3 py-1 rounded-full text-[10px]">🦆 Luss: £2/hr</span>
-                            <span class="bg-white border px-3 py-1 rounded-full text-[10px]">🐮 Pollok: £7 (4hrs)</span>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- Transport Plan Table -->
+        <div class="overflow-x-auto mb-4">
+            <table class="w-full text-left border-collapse min-w-[700px]">
+                <thead>
+                    <tr class="text-xs font-black text-slate-400 uppercase tracking-widest border-b-2 border-slate-100">
+                        <th class="pb-4 px-4 w-[15%]">Day / 日期</th>
+                        <th class="pb-4 px-4 w-[45%]">Route / 路線</th>
+                        <th class="pb-4 px-4 text-center text-brand w-[20%]">Cost / 預計費用</th>
+                        <th class="pb-4 px-4 text-center w-[20%]">Time / 時間</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm font-bold text-slate-600">
+                    <!-- Day 2 -->
+                    <tr class="border-b border-slate-50 bg-slate-50 hover:bg-slate-50 transition-colors">
+                        <td class="py-5 px-4 font-black text-slate-800 align-top">Day 2 Option 1</td>
+                        <td class="py-5 px-4 align-top">
+                            <span class="block mb-3">Hotel ➔ Drive & City Center Parking</span>
+                            <div class="text-[11px] font-normal text-slate-600 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm inline-block w-full max-w-sm">
+                                <span class="font-bold text-orange-600 block mb-2 border-b border-orange-100 pb-1">Top Parking Picks (省錢泊車秘笈):</span>
+                                <div class="flex justify-between gap-2"><span>• JustPark (Blackfriars St)</span> <span class="font-bold text-orange-500">~£10-14/Day</span></div>
+                                <div class="flex justify-between gap-2"><span>• NCP Fountainpark App</span> <span class="font-bold text-orange-500">~£12-15/Day</span></div>
+                                <div class="flex justify-between gap-2"><span>• Dynamic Earth (Holyrood)</span> <span class="font-bold text-orange-500">~£15-18/Day</span></div>
+                            </div>
+                        </td>
+                        <td class="py-5 px-4 text-center text-orange-500 align-top">~ £10 - £18 <span class="text-[10px] font-normal text-slate-400 block mt-1">(Parking Fee)</span></td>
+                        <td class="py-5 px-4 text-center text-slate-500 align-top">~ 25 mins</td>
+                    </tr>
+                    <tr class="border-b border-slate-50 bg-slate-50hover:bg-slate-50 transition-colors">
+                        <td class="py-5 px-4 font-black text-slate-800 align-top">Day 2 Option 2</td>
+                        <td class="py-5 px-4 align-top">Hotel ➔ P&R + Train into Edinburgh</td>
+                        <td class="py-5 px-4 text-center text-brand align-top">£28.60 <span class="text-[10px] font-normal text-slate-400 block mt-1">(ScotRail "Kids for a Quid")</span></td>
+                        <td class="py-5 px-4 text-center text-slate-500 align-top">~ 35 mins</td>
+                    </tr>
+                    <tr class="border-b border-slate-50 bg-slate-50hover:bg-slate-50 transition-colors">
+                        <td class="py-5 px-4 font-black text-slate-800 align-top">Day 2 Option 3</td>
+                        <td class="py-5 px-4 align-top">Hotel ➔ Bus/Tram Day Pass</td>
+                        <td class="py-5 px-4 text-center text-brand align-top">£25.00 <span class="text-[10px] font-normal text-slate-400 block mt-1">(Family(2A3C) £13 + 2A £12)</span></td>
+                        <td class="py-5 px-4 text-center text-slate-500 align-top">~ 60 mins</td>
+                    </tr>
+
+                    <!-- Day 4 -->
+                    <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                        <td class="py-5 px-4 font-black text-slate-800 align-top">Day 4 Option 1</td>
+                        <td class="py-5 px-4 align-top">
+                            <span class="block mb-3">Hotel ➔ Drive & West End Parking</span>
+                            <div class="text-[11px] font-normal text-slate-600 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm inline-block w-full max-w-sm">
+                                <span class="font-bold text-indigo-600 block mb-2 border-b border-indigo-100 pb-1">Top Parking Picks (省錢泊車秘笈):</span>
+                                <div class="flex justify-between gap-2"><span>• Kelvinbridge P&R (inc. Subway)</span> <span class="font-bold text-indigo-500">£5.70/Day</span></div>
+                                <div class="flex justify-between gap-2"><span>• JustPark (West End)</span> <span class="font-bold text-indigo-500">~£10-15/Day</span></div>
+                                <div class="flex justify-between gap-2"><span>• Bunhouse Car Park</span> <span class="font-bold text-indigo-500">~£3/Hr</span></div>
+                            </div>
+                        </td>
+                        <td class="py-5 px-4 text-center text-indigo-500 align-top">~ £5.70 - £15 <span class="text-[10px] font-normal text-slate-400 block mt-1">(Parking Fee)</span></td>
+                        <td class="py-5 px-4 text-center text-slate-500 align-top">~ 15 mins</td>
+                    </tr>
+                    <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                        <td class="py-5 px-4 font-black text-slate-800 align-top">Day 4 Option 2</td>
+                        <td class="py-5 px-4 align-top">Stepps Station ➔ Glasgow Queen St (Train)</td>
+                        <td class="py-5 px-4 text-center text-brand align-top">£19.60</td>
+                        <td class="py-5 px-4 text-center text-slate-500 align-top">~ 35 mins</td>
+                    </tr>
+                    <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                        <td class="py-5 px-4 font-black text-slate-800 align-top">Day 4 Option 3</td>
+                        <td class="py-5 px-4 align-top">Glasgow Bus/Tram Day Pass</td>
+                        <td class="py-5 px-4 text-center text-brand align-top">£7.20 pp <span class="text-[10px] font-normal text-slate-400 block mt-1">(under 5 free)</span></td>
+                        <td class="py-5 px-4 text-center text-slate-500 align-top">~ 31 mins</td>
+                    </tr>
+
+                    <!-- Day 3/5/6 -->
+                    <tr class="border-b border-slate-50 bg-slate-50">
+                        <td class="py-5 px-4 font-black text-slate-800 align-middle">Day 3 / 5 / 6</td>
+                        <td class="py-5 px-4 text-brand uppercase text-xs tracking-widest align-middle">Parking / 泊車預算</td>
+                        <td colspan="2" class="py-5 px-4 align-middle">
+                            <div class="flex flex-wrap gap-2 justify-end">
+                                <span class="bg-white border border-slate-200 px-3 py-1.5 rounded-full text-xs shadow-sm">🐴 Kelpies: £5</span>
+                                <span class="bg-white border border-slate-200 px-3 py-1.5 rounded-full text-xs shadow-sm">🦆 Luss: £2/hr</span>
+                                <span class="bg-white border border-slate-200 px-3 py-1.5 rounded-full text-xs shadow-sm">🐮 Pollok: £7 (4hrs)</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
+
 
     <!-- Hotels Section -->
     <section id="hotels" class="py-20 px-6 max-w-6xl mx-auto border-t border-slate-200">
